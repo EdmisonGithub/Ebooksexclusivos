@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo Exclusivo de Ebooks | Ebooks | [Nome da sua Loja]</title>
+    <style>
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #2ed573;
+            --dark-color: #2f3542;
+            --light-color: #f1f2f6;
+            --gold-color: #ffa502;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* Faixa de Urgência / Cronômetro */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            text-align: center;
+            padding: 50px 20px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #57606f;
+        }
+
+        /* Vitrine de Livros */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .discount-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .book-img-container {
+            width: 100%;
+            height: 340px;
+            background-color: #dfe4ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .book-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--dark-color);
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stars {
+            color: var(--gold-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .price-box {
+            margin-bottom: 15px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #a4b0be;
+            font-size: 0.9rem;
+        }
+
+        .new-price {
+            color: var(--secondary-color);
+            font-size: 1.6rem;
+            font-weight: bold;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .btn-buy {
+            display: block;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.2s;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+        }
+
+        .btn-buy:hover {
+            background-color: #26af5f;
+        }
+
+        /* Seção de Credibilidade / Depoimentos */
+        .testimonials-section {
+            background-color: white;
+            padding: 60px 20px;
+            margin-top: 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--light-color);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid var(--secondary-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: #4f5561;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        /* Selos de Segurança */
+        .security-badges {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e4e7eb;
+            border-bottom: 1px solid #e4e7eb;
+        }
+
+        .security-badges span {
+            display: inline-block;
+            margin: 10px 25px;
+            font-weight: bold;
+            color: #747d8c;
+            font-size: 0.95rem;
+        }
+
+        /* Suporte / Contato */
+        .support-section {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .support-form {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .btn-submit {
+            background-color: var(--dark-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e222b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 20px;
+            background-color: var(--dark-color);
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        ⚠️ ATENÇÃO: Descontos especiais expiram em: <span id="timer">30:00</span>
+    </div>
+
+    <header>
+        <h1>Acervo Exclusivo de Ebooks: Aprenda, Evolua e Domine Novas Habilidades</h1>
+        <p>Acesso instantâneo aos melhores e-books do mercado. Cada livro possui suporte e checkout individual seguro.</p>
+    </header>
+
+    <main class="container">
+        <div class="books-grid" id="books-container">
+            </div>
+    </main>
+
+    <section class="testimonials-section">
+        <h2 class="section-title">O que dizem os nossos leitores</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card"><p class="testimonial-text">"Comprei o volume de desenvolvimento pessoal e a entrega foi imediata no meu e-mail."</p><p class="testimonial-author">— Amanda Rocha</p></div>
+            <div class="testimonial-card"><p class="testimonial-text">"Excelente plataforma! O checkout é rápido, seguro e os descontos de fato valem a pena."</p><p class="testimonial-author">— Rodrigo Souza</p></div>
+            <div class="testimonial-card"><p class="testimonial-text">"Os livros têm uma diagramação perfeita para ler no tablet e celular."</p><p class="testimonial-author">— Camila Farias</p></div>
+            <div class="testimonial-card"><p class="testimonial-text">"Tive uma dúvida antes de fechar, usei o suporte e responderam muito rápido!"</p><p class="testimonial-author">— Lucas Menezes</p></div>
+            <div class="testimonial-card"><p class="testimonial-text">"Preço justo e materiais riquíssimos. Mudou meu negócio."</p><p class="testimonial-author">— Fernando Lima</p></div>
+            <div class="testimonial-card"><p class="testimonial-text">"Gostei muito da garantia de 7 dias oferecida. Comprei sem medo."</p><p class="testimonial-author">— Patrícia Santos</p></div>
+            <div class="testimonial-card"><p class="testimonial-text">"Consegui aproveitar a promoção do cronômetro e economizei bastante."</p><p class="testimonial-author">— Gabriel Costa</p></div>
+        </div>
+    </section>
+
+    <section class="security-badges">
+        <span>🔒 Pagamento 100% Criptografado</span>
+        <span>⭐ Avaliações Verificadas</span>
+        <span>🚀 Download Imediato</span>
+        <span>🛡️ 7 Dias de Garantia</span>
+    </section>
+
+    <section class="support-section">
+        <div class="support-form">
+            <h2 style="margin-bottom: 20px; text-align: center; font-size: 1.6rem;">Ficou com alguma dúvida?</h2>
+            <form action="https://formsubmit.co/seu-email@dominio.com" method="POST">
+                <div class="form-group">
+                    <label for="name">Nome Completo:</label>
+                    <input type="text" id="name" name="name" required placeholder="Ex: João Silva">
+                </div>
+                <div class="form-group">
+                    <label for="email">Seu Melhor E-mail:</label>
+                    <input type="email" id="email" name="email" required placeholder="Ex: joao@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensagem ou Dúvida:</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Digite aqui..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar para o Suporte</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Plataforma Livraria Digital. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // --- 1. CRONÔMETRO ---
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ":" + seconds;
+                if (--timer < 0) timer = duration;
+            }, 1000);
+        }
+        window.onload = function () {
+            startTimer(60 * 30, document.querySelector('#timer'));
+        };
+
+        // --- 2. BANCO DE DADOS INDIVIDUAL DE CADA LIVRO (TOTAL 50) ---
+        // Agora cada livro é um bloco independente. Mude os dados de um sem afetar os outros!
+        const booksData = [
+            {
+                title: " O CÓDIGO DA PRODUTIVIDADE EXPONENCIAL: Como Dominar o Tempo e Multiplicar Seus Resultados em Metade do Tempo.", 
+                stars: "★★★★★", 
+                discount: "50", 
+                oldPrice: "50,00", 
+                newPrice: "37,00", 
+                image: "1.jpeg", 
+                checkoutUrl: "https://go.hotmart.com/Y106649432S"
+            },
+            {
+                title: "O FIM DO ESGOTAMENTO: Como Silenciar o Caos Mental e Retomar o Controle da Sua Vida", 
+                stars: "★★★★☆", 
+                discount: "30", 
+                oldPrice: "60,90", 
+                newPrice: "39,99", 
+                image: "2.jpeg", 
+                checkoutUrl: "https://go.hotmart.com/V106650524H?dp=1"
+            },
+            {
+                title: "CÓDIGO DA MENTE BRILHANTE: Neurohacks para Desbloquear o Potencial Máximo do Seu Cérebro", 
+                stars: "★★★★★", 
+                discount: "40", 
+                oldPrice: "49,90", 
+                newPrice: "29,00", 
+                image: "3.jpeg", 
+                checkoutUrl: "https://go.hotmart.com/D106650754U?dp=1"
+            },
+            {
+                title: "O PESO DO TEMPO: Como Deixar de Carregar o Mundo nas Costas e Multiplicar Suas Horas Livres", 
+                stars: "★★★★★", 
+                discount: "20", 
+                oldPrice: "45,00", 
+                newPrice: "34,00", 
+                image: "4.jpeg", 
+                checkoutUrl: "https://go.hotmart.com/E106650993Y?dp=1"
+            },
+            // Do Livro 5 ao 50, deixei o padrão pronto. Basta você trocar os textos e links deles aqui embaixo:
+            { title: "O GRANDE MARIONESTA: Desvendando os Mecanismos do Controle", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "28,00", image: "5.jpeg", checkoutUrl: "https://go.hotmart.com/I106651158U?dp=1" },
+            { title: "MENTE SOB CONTROLE: O Manual da Engenharia Mental", stars: "★★★★★", discount: "20", oldPrice: "55,00", newPrice: "38,00", image: "6.jpeg", checkoutUrl: "https://go.hotmart.com/Q106651429I?dp=1" },
+            { title: "MENTE MILIONÁRIA: A Ciência Oculta da Atração Financeira", stars: "★★★★★", discount: "20", oldPrice: "45,00", newPrice: "33,00", image: "7.jpeg", checkoutUrl: "https://go.hotmart.com/W106651761H?dp=1" },
+            { title: "O CASAMENTO DOS SONHOS: O Guia Definitivo de Planejamento Passo a Passo", stars: "★★★★★", discount: "20", oldPrice: "60,00", newPrice: "39,00", image: "8.jpeg", checkoutUrl: "https://go.hotmart.com/A106651986J?dp=1" },
+            { title: "O EFEITO ESPELHO: Enxergando o Seu Potencial Oculto", stars: "★★★★★", discount: "20", oldPrice: "56,00", newPrice: "38,00", image: "9.jpeg", checkoutUrl: "https://go.hotmart.com/H106652128H?dp=1" },
+            { title: "A ARTE DE SE CONECTAR: Como Criar Laços Reais em um Mundo Digital", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "37,00", image: "10.jpeg", checkoutUrl: "https://go.hotmart.com/R106652381B?dp=1" },
+            { title: "CURANDO SUAS RAIZES: O Resgate da Criança Interior", stars: "★★★★★", discount: "20", oldPrice: "70,00", newPrice: "29,00", image: "11.jpeg", checkoutUrl: "https://go.hotmart.com/I106652525I?dp=1" },
+            { title: "ROMPENDO O SILENCIO: Como se Libertar do Abuso Psicológico", stars: "★★★★★", discount: "20", oldPrice: "45,00", newPrice: "34,00", image: "12.jpeg", checkoutUrl: "https://go.hotmart.com/I106652885Q?dp=1" },
+            { title: "O REFÚGIO DO AMOR: Como Resgatar a Conexão Oculta no Casamento", stars: "★★★★★", discount: "20", oldPrice: "45,00", newPrice: "36,00", image: "13.jpeg", checkoutUrl: "https://go.hotmart.com/Y106652669B?dp=1" },
+            { title: "CONSUMIDO PELO FOGO: Como Vencer o Burnout antes que a Sua Chama se Apague", stars: "★★★★★", discount: "20", oldPrice: "45,00", newPrice: "27,00", image: "14.jpeg", checkoutUrl: "https://go.hotmart.com/A106653027N?dp=1" },
+            { title: "AS CORDAS INVISIVEIS: Por Que Você Sabota o Seu Próprio Sucesso?", stars: "★★★★★", discount: "20", oldPrice: "49,00", newPrice: "28,00", image: "15.jpeg", checkoutUrl: "https://go.hotmart.com/X106653162X?dp=1" },
+            { title: "SUPERAÇÃO DE TRAUMAS, Culpa e Crenças Limitantes Extremas", stars: "★★★★★", discount: "20", oldPrice: "47,00", newPrice: "39,00", image: "16.jpeg", checkoutUrl: "https://go.hotmart.com/L106653249N?dp=1" },
+            { title: "PRISIONEIROS DO ALGORITMO: Como Recuperar Sua Mente na Era da Atenção Vendida", stars: "★★★★★", discount: "20", oldPrice: "57,00", newPrice: "29,00", image: "17.jpeg", checkoutUrl: "https://go.hotmart.com/E106653347K?dp=1" },
+            { title: "O DIA DEPOIS DO FIM: O Guia Emocional para Superar o Divórcio", stars: "★★★★★", discount: "20", oldPrice: "65,00", newPrice: "35,00", image: "18.jpeg", checkoutUrl: "https://go.hotmart.com/F106653436I?dp=1" },
+            { title: "CRIANDO ADULTOS SEGUROS: O que seu filho realmente precisa aprender hoje para se tornar uma pessoa resiliente, independente e feliz amanhã.", stars: "★★★★★", discount: "45", oldPrice: "28,00", newPrice: "27,00", image: "19.jpeg", checkoutUrl: "https://go.hotmart.com/D106653528Q?dp=1" },
+            { title: "O MILAGRE DENTRO DE MIM: A Jornada Sagrada da Maternidade e a Conexão que Muda tudo", stars: "★★★★★", discount: "20", oldPrice: "48,00", newPrice: "38,00", image: "20.jpeg", checkoutUrl: "https://go.hotmart.com/G106653606Q?dp=1" },
+            { title: "O PREÇO DO SANGUE DE JESUS: Compreendendo o Sacrifício que Dividiu a História", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "37,00", image: "22.jpeg", checkoutUrl: "https://go.hotmart.com/M106653659Q?dp=1" },
+            { title: "O PERDÃO DE DEUS: Como o Sacrifício de Cristo Anulou a Sua Culpa", stars: "★★★★★", discount: "20", oldPrice: "65,00", newPrice: "28,00", image: "23.jpeg", checkoutUrl: "https://go.hotmart.com/U106653729C?dp=1" },
+            { title: "COSTURANDO MINHAS FERIDAS: O Guia Prático para Curar Sua Criança Interior", stars: "★★★★★", discount: "20", oldPrice: "58,00", newPrice: "32,00", image: "24.jpeg", checkoutUrl: "https://go.hotmart.com/D106653803C?dp=1" },
+            { title: "O FIM DO SILENCIO: Rompendo as Correntes da Dependência Emocional", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "27,00", image: "25.jpeg", checkoutUrl: "https://go.hotmart.com/W106656218G?dp=1" },
+            { title: "O PREÇO DO SILENCIO: Como Identificar e Romper o Ciclo da Violência Psicológica e Física", stars: "★★★★★", discount: "20", oldPrice: "43,00", newPrice: "34,00", image: "26.jpeg", checkoutUrl: "https://go.hotmart.com/E106656292Y?dp=1" },
+            { title: "O RESGATE DA ALMA: O plano divino de redenção revelado nas Escrituras.", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "36,00", image: "28.jpeg", checkoutUrl: "https://go.hotmart.com/I106656393X?dp=1" },
+            { title: "CONEXÃO PROFUNDA: O Manual da Comunicação Assertiva para Casais", stars: "★★★★★", discount: "20", oldPrice: "56,00", newPrice: "37,00", image: "29.jpeg", checkoutUrl: "https://go.hotmart.com/G106656490J?dp=1" },
+            { title: "O EFEITO MANADA: Como Escapar do Caminho Comum e Construir a Verdadeira Riqueza", stars: "★★★★★", discount: "20", oldPrice: "45,00", newPrice: "33,00", image: "31.jpeg", checkoutUrl: "https://go.hotmart.com/A106656574K?dp=1" },
+            { title: "AlÉM DO SALÁRIO: Como Quebrar as Correntes do Emprego Tradicional e Criar Sua Própria Riqueza", stars: "★★★★★", discount: "20", oldPrice: "39,00", newPrice: "31,00", image: "32.jpeg", checkoutUrl: "https://go.hotmart.com/O106656669E?dp=1" },
+            { title: "ARQUITETURA DA RIQUEZA: Leis Imutáveis para Atrair, Reter e Multiplicar Dinheiro", stars: "★★★★★", discount: "20", oldPrice: "78,00", newPrice: "42,00", image: "33.jpeg", checkoutUrl: "https://go.hotmart.com/D106656836O?dp=1" },
+            { title: "MARKETING DIGITAL: Estratégias essenciais de marketing para posicionar sua marca, atrair o público certo e escalar seu faturamento.", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "39,00", image: "34.jpeg", checkoutUrl: "https://go.hotmart.com/A106657648S?dp=1" },
+            { title: "MENTE RICA: Como Reprogramar Seu Cérebro para Atrair e Multiplicar Dinheiro", stars: "★★★★★", discount: "20", oldPrice: "67,00", newPrice: "29,00", image: "35.jpeg", checkoutUrl: "https://go.hotmart.com/R106657776F?dp=1" },
+            { title: "CONEXÃO INABALÁVEL: Como Blindar Seu Relacionamento Contra Crises e Distanciamento", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "38,00", image: "36.jpeg", checkoutUrl: "https://go.hotmart.com/W106657938N?dp=1" },
+            { title: "CADEIRAS QUEBRADAS: O Guia Espiritual para Vencer as Batalhas da Mente", stars: "★★★★★", discount: "20", oldPrice: "64,00", newPrice: "36,00", image: "37.jpeg", checkoutUrl: "https://go.hotmart.com/O106658111T?dp=1" },
+            { title: "VIDA DE FÉ E COMUNHÃO COM DEUS:Hábitos simples para fortalecer seu relacionamento diário com o Criador.", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "27,00", image: "38.jpeg", checkoutUrl: "https://go.hotmart.com/X106658242D?dp=1" },
+            { title: " O PODER DA MULHER: O impacto da voz feminina na construção de um novo Mundo", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "36,00", image: "39.jpeg", checkoutUrl: "https://go.hotmart.com/X106658398X?dp=1" },
+            { title: "MULHER VIRTUOSA: Um chamado para viver os valores que transformam gerações. ", stars: "★★★★★", discount: "20", oldPrice: "58,00", newPrice: "37,00", image: "40.jpeg", checkoutUrl: "https://go.hotmart.com/C106658593D?dp=1" },
+            { title: "DEVOCIONAL: Como blindar sua mente e o seu coração através da Palavra", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "35,00", image: "41.jpeg", checkoutUrl: "https://go.hotmart.com/V106658732L?dp=1" },
+            { title: "A UNÇÃO DIVINA: Compreendendo a essência, o propósito e a responsabilidade da unção divina.", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "28,00", image: "42.jpeg", checkoutUrl: "https://go.hotmart.com/H106658854I?dp=1" },
+            { title: "NAMORO CRISTÃO: Construindo um relacionamento com base no propósito e na fé.", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "37,00", image: "43.jpeg", checkoutUrl: "https://go.hotmart.com/C106658986G?dp=1" },
+            { title: "O ALGORITMO DA RIQUEZA: Os princípios imutáveis que separam quem apenas trabalha de quem constrói um legado", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "29,00", image: "44.jpeg", checkoutUrl: "https://go.hotmart.com/E106659405Q?dp=1" },
+            { title: "RAZÃO & CORAÇÃO: O Guia Prático para Alinhar a Mente e os Sentimentos", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "32,00", image: "47.jpeg", checkoutUrl: "https://go.hotmart.com/W106659603H?dp=1" },
+            { title: "Mente Rica, Bolso Cheio: Como Reprogramar Seu Cérebro para Multiplicar Seu Dinheiro", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "27,00", image: "48.jpeg", checkoutUrl: "https://go.hotmart.com/O106659801F?dp=1" },
+            { title: "Produtividade sem Exaustão: Como Entregar Resultados sem Destruir Sua Saúde Mental", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "38,00", image: "49.jpeg", checkoutUrl: "https://go.hotmart.com/F106668694I?dp=1" },
+            { title: "O Estudante Imparável: Como transformar sua mentalidade, superar o medo do fracasso e construir uma rotina acadêmica que se torna um hábito automático", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "29,00", image: "50.jpeg", checkoutUrl: "https://go.hotmart.com/S106669098Q?dp=1" },
+            { title: "Diabetes Sem Complicações: O método prático para simplificar sua rotina, entender seus sinais e manter a glicemia estável sem viver em constante estado de alerta.", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "34,00", image: "51.jpeg", checkoutUrl: "https://go.hotmart.com/T106668935R?dp=1" },
+            { title: "O Amor de Deus: Encontrando repouso na essência do Criador", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "29,00", image: "52.jpeg", checkoutUrl: "https://go.hotmart.com/U106669241I?dp=1" },
+            { title: "Morte e Ressurreição de  Cristo: Um guia de reflexão sobre o sacrifício e a vida eterna", stars: "★★★★★", discount: "20", oldPrice: "64,00", newPrice: "34,00", image: "54.jpeg", checkoutUrl: "https://go.hotmart.com/G106669614G?dp=1" },
+            { title: "O ALGORITMO HUMANO: Como conectar emoções e Vendas no Mundo Digital", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "35,00", image: "55.jpeg", checkoutUrl: "https://go.hotmart.com/F106669769P?dp=1" },
+            { title: "DOIS CAMINHOS, UM DESTINO (INFERNO OU PARAISO): Entendendo a jornada da fé e a Vida eterna em DEUS", stars: "★★★★★", discount: "20", oldPrice: "50,00", newPrice: "36,00", image: "56.jpeg", checkoutUrl: "https://go.hotmart.com/N106670001G?dp=1" }
+        ];
+
+        // --- 3. RENDERIZAÇÃO NA TELA ---
+        const booksContainer = document.getElementById('books-container');
+        booksData.forEach(book => {
+            booksContainer.innerHTML += `
+                <div class="book-card">
+                    <div class="discount-tag">-${book.discount}% OFF</div>
+                    <div class="book-img-container">
+                        <img src="${book.image}" alt="${book.title}" class="book-img" onerror="this.src='https://via.placeholder.com/260x340/2f3542/ffffff?text=Carregando+Capa...'">
+                    </div>
+                    <div class="book-info">
+                        <div>
+                            <h3 class="book-title">${book.title}</h3>
+                            <div class="stars">${book.stars}</div>
+                        </div>
+                        <div>
+                            <div class="price-box">
+                                <span class="old-price">R$ ${book.oldPrice}</span>
+                                <span class="new-price">R$ ${book.newPrice}</span>
+                            </div>
+                            <a href="${book.checkoutUrl}" target="_blank" class="btn-buy">Adquirir Livro</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
